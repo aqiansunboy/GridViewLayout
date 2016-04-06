@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--单行或单列表格视图布局 -->
+    <declare-styleable name="GridViewLayout">
+        <attr name="horizontalSpacing" format="dimension" />
+        <attr name="verticalSpacing" format="dimension" />
+        <attr name="numColumns" format="integer" />
+        <attr name="numRows" format="integer" />
+        <attr name="gridLineMode">
+            <enum name="singleLine" value="0" />
+            <enum name="multiLine" value="1" />
+        </attr>
+    </declare-styleable>
+
+</resources>
