@@ -8,6 +8,11 @@
 GridViewLayout只适用于少量单元格Grid布局的需求的页面，无法滚动，无法单元格复用。
 
 ### GridViewLayout怎么用
+**第一步**
+```groovy
+compile 'com.m4399:gridviewlayout:1.0.0'
+```
+**第二步**
 非常的简单，请戳代码，附上效果图：
 
 <p align="center" >
