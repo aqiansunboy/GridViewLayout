@@ -9,6 +9,7 @@
         <attr name="numRows" format="integer" />
         <attr name="gridLineMode">
             <enum name="singleLine" value="0" />
+            <enum name="singleColumn" value="2"/>
             <enum name="multiLine" value="1" />
         </attr>
     </declare-styleable>

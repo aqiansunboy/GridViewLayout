@@ -27,8 +27,9 @@ import java.util.List;
  */
 public class GridViewLayout extends LinearLayout implements View.OnClickListener
 {
-    public static final int GRID_LINE_MODE_SINGLE = 0;   // 单行或单列模式
+    public static final int GRID_LINE_MODE_SINGLE = 0;   // 单行模式
     public static final int GRID_LINE_MODE_MULTI = 1;    // 多行多列模式
+    public static final int GRID_LINE_MODE_SINGLE_COLUMN = 2; // 单列模式
 
     private ArrayList<View> mViews;
 
@@ -73,6 +74,16 @@ public class GridViewLayout extends LinearLayout implements View.OnClickListener
         {
             this.setOrientation(LinearLayout.VERTICAL);
         }
+        // 如果是单行的，必须是水平方向
+        else if (mGridLineMode == GRID_LINE_MODE_SINGLE)
+        {
+            this.setOrientation(LinearLayout.HORIZONTAL);
+        }
+        // 如果是单列的，必须是垂直方向
+        else if (mGridLineMode == GRID_LINE_MODE_SINGLE_COLUMN)
+        {
+            this.setOrientation(LinearLayout.VERTICAL);
+        }
 
         typeArrays.recycle();
     }
@@ -113,7 +124,18 @@ public class GridViewLayout extends LinearLayout implements View.OnClickListener
     {
         this.mGridLineMode = gridLineMode;
 
+        // 如果是多行多列的，必须是垂直方向
         if (mGridLineMode == GRID_LINE_MODE_MULTI)
+        {
+            this.setOrientation(LinearLayout.VERTICAL);
+        }
+        // 如果是单行的，必须是水平方向
+        else if (mGridLineMode == GRID_LINE_MODE_SINGLE)
+        {
+            this.setOrientation(LinearLayout.HORIZONTAL);
+        }
+        // 如果是单列的，必须是垂直方向
+        else if (mGridLineMode == GRID_LINE_MODE_SINGLE_COLUMN)
         {
             this.setOrientation(LinearLayout.VERTICAL);
         }
@@ -172,37 +194,72 @@ public class GridViewLayout extends LinearLayout implements View.OnClickListener
             mViews.clear();
         }
 
-        for (int i = 0;i < mAdapter.getData().size();i++)
+        if (mNumColumns == 0)
+        {
+            mNumColumns = mAdapter.getData().size();
+        }
+
+        for (int i = 0;i < Math.min(mNumColumns, mAdapter.getData().size());i++)
         {
             GridViewLayoutViewHolder childView = mAdapter.createView(this);
 
             mViews.add(childView.getItemView());
 
-            LayoutParams params;
+            LayoutParams params = new LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.weight = 1;
 
-            if (this.getOrientation() == VERTICAL)
+            if (i > 0)
             {
-                params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,0);
-                params.weight = 1;
-
-                if (i > 0)
-                {
-                    params.setMargins(0, mVerticalSpacing, 0, 0);
-                }
-            }
-            else
-            {
-                params = new LayoutParams(0,ViewGroup.LayoutParams.WRAP_CONTENT);
-                params.weight = 1;
-
-                if (i > 0)
-                {
-                    params.setMargins(mHorizontalSpacing, 0, 0, 0);
-                }
+                params.setMargins(mHorizontalSpacing, 0, 0, 0);
             }
 
             addView(childView.getItemView(), params);
 
+            mAdapter.onBindView(childView, i);
+            childView.getItemView().setTag(i);
+            childView.getItemView().setOnClickListener(this);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void requestSingleColumnLayoutOnChanged()
+    {
+        if (mAdapter == null)
+        {
+            throw new IllegalArgumentException("You need one adaper instance.Please call setAdapter().");
+        }
+
+        if (mViews == null)
+        {
+            mViews = new ArrayList<>();
+        }
+
+        if (mViews.size() > 0)
+        {
+            this.removeAllViews();
+            mViews.clear();
+        }
+
+        if (mNumRows == 0)
+        {
+            mNumRows = mAdapter.getData().size();
+        }
+
+        for (int i = 0;i < Math.min(mNumRows, mAdapter.getData().size());i++)
+        {
+            GridViewLayoutViewHolder childView = mAdapter.createView(this);
+
+            mViews.add(childView.getItemView());
+
+            LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,0);
+            params.weight = 1;
+
+            if (i > 0)
+            {
+                params.setMargins(0, mVerticalSpacing, 0, 0);
+            }
+
+            addView(childView.getItemView(), params);
 
             mAdapter.onBindView(childView, i);
             childView.getItemView().setTag(i);
@@ -239,7 +296,14 @@ public class GridViewLayout extends LinearLayout implements View.OnClickListener
         // 如果没有设置行数
         if (itemCount > 0 && mNumRows == 0)
         {
-            mNumRows = (itemCount / mNumColumns) + 1;
+            if (itemCount % mNumColumns != 0)
+            {
+                mNumRows = (itemCount / mNumColumns) + 1;
+            }
+            else
+            {
+                mNumRows = itemCount / mNumColumns;
+            }
         }
 
         for (int rowIndex = 0; rowIndex < mNumRows; rowIndex++)
@@ -306,6 +370,9 @@ public class GridViewLayout extends LinearLayout implements View.OnClickListener
         {
             case GRID_LINE_MODE_SINGLE:
                 requestSingleLineLayoutOnChanged();
+                break;
+            case GRID_LINE_MODE_SINGLE_COLUMN:
+                requestSingleColumnLayoutOnChanged();
                 break;
             case GRID_LINE_MODE_MULTI:
                 requestMultiLineLayoutOnChanged();
