@@ -16,8 +16,7 @@ compile 'com.m4399:gridviewlayout:1.0.0.1'
 ```
 **第二步**
 非常的简单，开始写代码吧~
-
-1. 单行模式
+- 单行模式
 ```xml
 <com.m4399.gridviewlayout.GridViewLayout
             android:id="@+id/singleLineGrid"
@@ -29,7 +28,7 @@ compile 'com.m4399:gridviewlayout:1.0.0.1'
             />
 ```
 
-2. 单列模式
+- 单列模式
 ```xml
 <com.m4399.gridviewlayout.GridViewLayout
             android:id="@+id/singleColumnGrid"
@@ -41,7 +40,7 @@ compile 'com.m4399:gridviewlayout:1.0.0.1'
             />
 ```
 
-3. 多行多列
+- 多行多列
 ```xml
 <com.m4399.gridviewlayout.GridViewLayout
             android:id="@+id/multiRowColumnGrid"
@@ -53,5 +52,3 @@ compile 'com.m4399:gridviewlayout:1.0.0.1'
             app:horizontalSpacing="8dp"
             />
 ```
-
-更多细节请戳项目代码
