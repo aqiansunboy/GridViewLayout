@@ -14,7 +14,6 @@ GridViewLayout只适用于少量单元格Grid布局的需求的页面，无法�
 ```groovy
 compile 'com.m4399:gridviewlayout:1.0.0.1'
 ```
-*<a href='http://search.maven.org/#search%7Cga%7C1%7CGridViewwLayout'><img src='http://img.shields.io/maven-central/v/io.reactivex/rxandroid.svg'></a>
 
 **第二步**
 非常的简单，开始写代码吧~
