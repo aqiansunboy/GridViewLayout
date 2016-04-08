@@ -17,6 +17,8 @@ compile 'com.m4399:gridviewlayout:1.0.0.1'
 
 **第二步**
 非常的简单，开始写代码吧~
+
+1、编写布局，分为三种模式：
 - 单行模式
 ```xml
 <com.m4399.gridviewlayout.GridViewLayout
@@ -52,6 +54,78 @@ compile 'com.m4399:gridviewlayout:1.0.0.1'
             app:verticalSpacing="8dp"
             app:horizontalSpacing="8dp"
             />
+```
+
+2、编写ViewHolder
+```java
+class TextGridViewHolder extends GridViewLayout.GridViewLayoutViewHolder
+{
+        private TextView mTextView;
+
+        public TextGridViewHolder(Context context, View itemView)
+        {
+            super(context, itemView);
+        }
+
+        @Override
+        protected void initView()
+        {
+            mTextView = findViewById(R.id.gridCellTextView);
+        }
+
+        public void bindView(String text)
+        {
+            mTextView.setText(text);
+        }
+}
+```
+
+3、编写Adaper
+```java
+class TextGridAdaper extends GridViewLayout.GridViewLayoutAdapter<String, TextGridViewHolder>
+{
+
+        public TextGridAdaper(Context context)
+        {
+            super(context);
+        }
+
+        @Override
+        protected int getItemLayoutID()
+        {
+            return R.layout.viewholder_gridview;
+        }
+
+        @Override
+        protected TextGridViewHolder onCreateView(View itemView)
+        {
+            return new TextGridViewHolder(getContext(), itemView);
+        }
+
+        @Override
+        protected void onBindView(TextGridViewHolder view, int position)
+        {
+            view.bindView(getData().get(position));
+        }
+}
+```
+其中**getItemLayoutID**方法返回的就是目标Grid需要的单元格布局。可以是任意的布局。
+
+4、设置适配器
+```java
+GridViewLayout gridViewLayout1 = (GridViewLayout) findViewById(R.id.singleLineGrid);
+gridViewLayout1.setAdapter(new TextGridAdaper(this));
+```
+
+5、填充数据源
+```java
+List<String> datas = new ArrayList<>();
+datas.add("1");
+datas.add("2");
+datas.add("3");
+datas.add("4");
+
+gridViewLayout1.getAdapter().replaceAll(datas);
 ```
 
 ###LICENSE
