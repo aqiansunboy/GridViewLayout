@@ -14,16 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Project Name: m4399_GameCenter
+ * Project Name: GridViewLayout
  * File Name:    GridViewLayout.java
  * ClassName:    GridViewLayout
  *
  * Description: Grid视图容器（适用于少量数据源, 无复用需求的表格布局需求）.
  *
  * @author Chaoqian Wu
- * @date 2015年09月10日 下午5:11
  *
- * Copyright (c) 2015年, 4399 Network CO.ltd. All Rights Reserved.
  */
 public class GridViewLayout extends LinearLayout implements View.OnClickListener
 {

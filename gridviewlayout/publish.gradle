@@ -83,7 +83,7 @@ afterEvaluate {
 
 bintray {
     user = hasProperty("bintrayUser")?getProperty("bintrayUser"):getProperty("BINTRAY_USER")
-    key = hasProperty("bintrayKey")?getProperty("bintrayKey"):getProperty("BINTRAY_API_KEY")
+    key = hasProperty("bintrayKey")?getProperty("bintrayKey"):getProperty("BINTRAY_KEY")
 
     publications = ['mavenJava']
     publish = true
