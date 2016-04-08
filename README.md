@@ -11,6 +11,7 @@ GridViewLayout只适用于少量单元格Grid布局的需求的页面，无法�
 
 ### GridViewLayout怎么用
 **第一步**
+在build.gradle里添加如下依赖：
 ```groovy
 compile 'com.m4399:gridviewlayout:1.0.0.1'
 ```
@@ -51,6 +52,7 @@ compile 'com.m4399:gridviewlayout:1.0.0.1'
             android:layout_height="wrap_content"
             app:gridLineMode="multiLine"
             app:numColumns="2"
+            app:numRows="2"
             app:verticalSpacing="8dp"
             app:horizontalSpacing="8dp"
             />
